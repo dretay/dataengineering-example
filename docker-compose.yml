@@ -20,6 +20,21 @@ services:
       timeout: 5s
       retries: 5
       start_period: 30s
+  dbt:
+    stdin_open: true
+    tty: true
+    build:
+      context: ./dbt
+      dockerfile: dbt.Dockerfile
+    container_name:  dbt
+    networks:
+      iceberg_net:
+    depends_on:
+      trino:
+        condition: service_healthy
+    volumes:
+      - ./dbt/dbt:/root/.dbt:rw
+      - ./dbt/workspace:/workspace:rw
   superset:
     build:
       context: ./superset

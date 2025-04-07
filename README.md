@@ -14,3 +14,34 @@ airflow
         - host: trino
         - login: admin
         - post: 8080
+
+dbeaver
+    trino
+    datastack.internal:8082
+    admin
+
+
+docker exec -ti dbt /bin/bash
+dbt init
+    datalake
+    1
+
+    add the following to dbt_project.yml:
+        vars:
+            'dbt_date:time_zone': 'America/'America/New_York'
+
+        flags:
+            'require_certificate_validation': 'False'
+
+        models:
+            datalake:
+                staging:
+                    +materialized: table
+                    +schema: staging
+                marts:
+                    +materialized: table
+                    +schema: sales
+    add generate_schema_name.sql macro
+
+    edit ~/.dbt/profiles.yml as appropriate
+    
