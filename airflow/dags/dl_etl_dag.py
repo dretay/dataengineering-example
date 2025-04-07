@@ -12,6 +12,8 @@ default_args = {
     'retry_delay': timedelta(minutes=5),
 }
 
+DBT_PROJECT_DIR = "/opt/dbt"
+DBT_PROFILE_DIR = "/opt/dbt/profiles"
 
 # Define the SQL query to return a value
 query = """WITH is_empty AS (
@@ -94,17 +96,17 @@ with DAG(
         conn_id='trino_conn', 
     )
     
-    # # dbt tasks
-    # dbt_run = BashOperator(
-    #     task_id="dbt_run",
-    #     bash_command=f"dbt run --profiles-dir {DBT_PROFILE_DIR} --project-dir {DBT_PROJECT_DIR}",
-    # )
+    # dbt tasks
+    dbt_run = BashOperator(
+        task_id="dbt_run",
+        bash_command=f"dbt run --profiles-dir {DBT_PROFILE_DIR} --project-dir {DBT_PROJECT_DIR}",
+    )
 
-    # dbt_test = BashOperator(
-    #     task_id="dbt_test",
-    #     bash_command=f"dbt test --profiles-dir {DBT_PROFILE_DIR} --project-dir {DBT_PROJECT_DIR}",
-    # )
+    dbt_test = BashOperator(
+        task_id="dbt_test",
+        bash_command=f"dbt test --profiles-dir {DBT_PROFILE_DIR} --project-dir {DBT_PROJECT_DIR}",
+    )
 
     # Set task dependencies
-    # create_schema_iceberg >> create_raw_iceberg_sales >> get_table_rowcount >> get_sql_from_xcom_task >> add_table_data >> dbt_run >> dbt_test
-    create_schema_nessie >> create_raw_nessie_sales >> get_table_rowcount >> get_sql_from_xcom_task >> add_table_data
+    create_schema_nessie >> create_raw_nessie_sales >> get_table_rowcount >> get_sql_from_xcom_task >> add_table_data >> dbt_run >> dbt_test
+    # create_schema_nessie >> create_raw_nessie_sales >> get_table_rowcount >> get_sql_from_xcom_task >> add_table_data
