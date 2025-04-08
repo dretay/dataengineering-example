@@ -9,15 +9,10 @@ docker-compose build && docker-compose up
     - host: trino
     - login: admin
     - post: 8080
-5. load data into datalake (
+5. load data into datalake 
     - notebooks/download.ipynb
-)
-    http://datastack.internal:8888/lab/tree/download.ipynb
 
-airflow
-    define trino_conn connector 
-
-dbeaver
+6. Install Database Client and configure trino
     trino
     datastack.internal:8082
     admin
