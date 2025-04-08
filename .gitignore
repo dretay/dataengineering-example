@@ -185,7 +185,6 @@ metastore_db
 
 # Postgres data
 warehouse
-notebooks
 postgres/postgres_data
 
 .vscode
