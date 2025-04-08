@@ -194,3 +194,9 @@ airflow/logs
 
 #pgadmin
 pgadmin/sessions
+
+#code-server
+code-server/config/data
+code-server/config/extensions
+code-server/config/.local/share/code-server/heartbeat
+code-server/config/.config/vscode-sqltools/runningInfo.json

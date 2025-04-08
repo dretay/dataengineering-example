@@ -6,11 +6,13 @@ RUN apt-get install -y git build-essential libleveldb-dev
 
 USER ${AIRFLOW_UID}
 RUN pip install dbt-postgres==1.8.2 \
+	&& pip install airflow-code-editor \
 	&& pip install markupsafe==2.0.1 \
 	&& pip install apache-airflow-providers-postgres \
 	&& pip install apache-airflow-providers-odbc \
 	&& pip install psycopg2-binary \
 	&& pip install gitpython \
+	&& pip install black \
 	&& pip install dbt-airflow \
 	&& pip install plyvel \
 	&& pip install --upgrade cmake \
