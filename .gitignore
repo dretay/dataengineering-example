@@ -200,3 +200,5 @@ code-server/config/data
 code-server/config/extensions
 code-server/config/.local/share/code-server/heartbeat
 code-server/config/.config/vscode-sqltools/runningInfo.json
+code-server/config/.ssh/id_ed25519
+code-server/config/.ssh/id_ed25519.pub
