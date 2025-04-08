@@ -189,4 +189,8 @@ postgres/postgres_data
 
 .vscode
 
+#airflow
+airflow/logs
 
+#pgadmin
+pgadmin/sessions
