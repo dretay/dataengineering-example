@@ -1,19 +1,21 @@
+1. add host entry
 127.0.0.1 datastack.internal
-
-minio:
-    create buckets:
+2. bring up stack
+docker-compose build && docker-compose up
+3. create buckets:
         datalake
         warehouse
-
-jupyter
-    load data into datalake
+4. airflow - define trino_conn connector 
+    - host: trino
+    - login: admin
+    - post: 8080
+5. load data into datalake (
+    - notebooks/download.ipynb
+)
     http://datastack.internal:8888/lab/tree/download.ipynb
 
 airflow
     define trino_conn connector 
-        - host: trino
-        - login: admin
-        - post: 8080
 
 dbeaver
     trino
