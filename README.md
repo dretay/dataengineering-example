@@ -2,7 +2,7 @@
 127.0.0.1 datastack.internal
 2. bring up stack
 docker-compose build && docker-compose up
-3. create buckets:
+3. verify create buckets:
         datalake
         warehouse
 4. airflow - define trino_conn connector 
@@ -17,6 +17,13 @@ docker-compose build && docker-compose up
     datastack.internal:8082
     admin
 
+7. Run DAG
+
+---
+reset environment
+---
+1. /bin/rm -rf postgres/postgres_data
+2. docker rm -vf $(docker ps -aq)
 
 docker exec -ti dbt /bin/bash
 dbt init
@@ -44,3 +51,9 @@ dbt init
     
 setup ssl cert for codeserver
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./certs/nginx.key -out ./certs/nginx.crt 
+
+get minio mc shell
+    stdin_open: true
+    tty: true
+then
+docker-compose run --rm mc
