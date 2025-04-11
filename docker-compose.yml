@@ -7,7 +7,7 @@ services:
       dockerfile: postgres.Dockerfile
     container_name: postgres
     env_file:
-      - .env/postgres.env
+      - docker.env
     ports:
       - "5432:5432"
     volumes:
@@ -52,8 +52,7 @@ services:
       airflow:
         condition: service_healthy
     env_file: 
-      - .env/postgres.env
-      - .env/superset.env
+      - docker.env
     ports:
       - "8088:8088"
     restart: always
@@ -73,7 +72,7 @@ services:
       - ./trino/etc:/etc/trino:rw
       - ./trino/data:/var/trino:rw
     env_file:
-      - .env/minio.env
+      - docker.env
     environment:
       - JAVA_TOOL_OPTIONS=-Duser.timezone=UTC
     depends_on:
@@ -97,7 +96,7 @@ services:
       dockerfile: airflow.Dockerfile
     container_name: airflow
     env_file:
-      - .env/airflow.env
+      - docker.env
     volumes:
       - ./airflow/dags:/opt/airflow/dags
       - ./airflow/plugins:/opt/airflow/plugins
@@ -130,7 +129,7 @@ services:
       - ./dbt/workspace/datalake:/opt/dbt
       - ./dbt/dbt:/opt/dbt/profiles
     env_file:
-      - .env/airflow.env
+      - docker.env
     networks:
       iceberg_net:
     depends_on:
@@ -140,7 +139,7 @@ services:
     image: ghcr.io/projectnessie/nessie:0.103.2
     container_name: nessie
     env_file:
-      - .env/nessie.env
+      - docker.env
     depends_on:
       postgres:
         condition: service_healthy
@@ -168,32 +167,22 @@ services:
     networks:
       iceberg_net:
     depends_on:
-      - rest
       - minio
     volumes:
       - ./warehouse:/home/iceberg/warehouse
       - ./notebooks:/home/iceberg/notebooks
     env_file:
-      - .env/spark.env
+      - docker.env
     ports:
       - 8888:8888
       - 8080:8080
       - 10000:10000
       - 10001:10001
-  rest:
-    image: apache/iceberg-rest-fixture
-    container_name: iceberg-rest
-    networks:
-      iceberg_net:
-    ports:
-      - 8181:8181
-    env_file:
-      - .env/rest.env
   minio:
     image: minio/minio
     container_name: minio
     env_file:
-      - .env/minio.env
+      - docker.env
     networks:
       iceberg_net:
         aliases:
@@ -216,7 +205,7 @@ services:
     networks:
       iceberg_net:
     env_file:
-      - .env/mc.env
+      - docker.env
     entrypoint: >
       /bin/sh -c "
       until (/usr/bin/mc config host add minio http://minio:9000 admin password) do echo '...waiting...' && sleep 1; done;

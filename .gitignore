@@ -200,3 +200,4 @@ code-server/config/.local/share/code-server/heartbeat
 code-server/config/.config/vscode-sqltools/runningInfo.json
 code-server/config/.ssh
 code-server/config/extensions/
+code-server/config/.bash_history
