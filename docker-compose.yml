@@ -240,5 +240,14 @@ services:
     ports:
       - 8443:8443
     restart: unless-stopped
+  rest:
+    image: apache/iceberg-rest-fixture
+    container_name: iceberg-rest
+    networks:
+      iceberg_net:
+    ports:
+      - 8181:8181
+    env_file:
+      - docker.env
 networks:
   iceberg_net:

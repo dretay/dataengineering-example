@@ -4,6 +4,9 @@
 - [Usage](#usage)
 - [Resetting the environment](#resetting-the-environment)
 - [DBT development](#dbt-development)
+- [Further Reading](#further-reading)
+- [Next Steps](#next-steps)
+
 
 # Overview
 A all-in-one development environment to test out / prototype data engineering pipelines. You should be able to simply checkout the project and bring it up to begin hacking. 
@@ -29,7 +32,8 @@ architecture-beta
     trino:T -- B:nessie
     minio:T -- B:iceberg
     minio:L -- L:spark
-    superset:T -- B:postgres
+    superset:L -- R:postgres
+    superset:B -- R:trino
     airflow:T -- B:postgres
     dbt:T -- B:airflow
 
@@ -117,4 +121,14 @@ Here are the notes on how I created the example DBT environment:
         +schema: sales
 ```
 4. add `workspace/datalake/macros/generate_schema_name.sql` macro
-    
+
+# Further Reading
+1. [Trino + dbt Transformations In SQL Heaven](https://www.youtube.com/watch?v=UYS75sjTziU) a super helpful guide to why DBT is so powerful and how it can be applied to an ingestion pipeline.
+2. [Apache Iceberg™ | What It Is and Why Everyone’s Talking About It](https://www.youtube.com/watch?v=TsmhRZElPvM) a good into into iceberg as a data catalog and how it compares to traditional SQL
+3. [Trino for Large Scale ETL at Lyft](https://www.youtube.com/watch?v=FL3c1Ue7YWM) a really good discussino on how Lyft uses Spark and Trino in conjunction with each other to do data analytics.
+4. [A MinIO whitepaper](https://blog.min.io/the-case-for-on-prem-iceberg-cost-control-and-performance/) about some of the cost considerations of doing on-prem dataengineering vs doing it in the cloud. 
+
+# Next Steps
+1. Integrate with Kafka with a [sink](https://iceberg.apache.org/docs/nightly/kafka-connect/) to show streaming ingestion
+2. Integrate DuckDB and show Trino federating between the Spark and DuckDB (faster vs larger). Maybe show this with the iceberg-rest stuff?
+3. Flush out ETL example with a more complex data set and show Superset actually integrated.
